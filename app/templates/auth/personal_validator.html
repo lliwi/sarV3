@@ -1,0 +1,62 @@
+{% extends '/auth/base-auth.html' %}
+
+{% block content %}
+{% include 'auth/base-header.html' %}
+
+        
+<div class="center">
+    <h1>Solicitudes pendientes</h1>
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Recurso</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Fecha solicitud</th>
+                <th>Acción</th>
+
+            </tr>
+        </thead>
+        {% for reg in requests %}
+        <tr>
+            <td>{{ reg['name'] }}</td>
+            <td>{{ reg['resource'] }}</td>
+            <td>{{ reg['description'] }}</td>
+            <td>{{ reg['status'] }}</td>
+            <td>{{ reg['date'].strftime('%d/%m/%Y %H:%M') }}</td>
+            <td>
+                &nbsp;&nbsp;
+                <a class="table-button" href="/auth/request_deny?uid={{ reg['UID'] }}">X</a>
+                <a class="table-button" href="/auth/request_approve?uid={{ reg['UID'] }}">V</a>
+            </td>
+            
+        </tr>
+        {%endfor%}
+    </table>
+</div>
+
+<div class="center">
+    <h1>Mis recursos</h1>
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Ruta</th>
+
+            </tr>
+        </thead>
+        {% for res in resources %}
+        <tr>
+            <td>{{ res['name'] }}</td>
+            <td>{{ res['description'] }}</td>
+            <td>{{ res['path'] }}</td>
+            
+        </tr>
+        {%endfor%}
+    </table>
+</div>
+
+    
+{% endblock %}

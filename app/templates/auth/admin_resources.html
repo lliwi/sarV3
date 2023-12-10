@@ -1,0 +1,76 @@
+{% extends '/auth/base-auth.html' %}
+
+{% block content %}
+{% include 'auth/base-header.html' %}
+
+<script>
+    function Search() {
+        var input = document.getElementById("search-input");
+        if (input.value.length >= 3 ) {
+            findRessources(input.value)
+        }
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script>
+    var rec="";
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.on('connect', function() {
+        //console.log('Conectado al servidor Socket.IO');
+    });
+
+    socket.on('resources-adm', function(data) {
+        var htmlTable = data.html_table;
+        document.getElementById('table-resources-adm').innerHTML = htmlTable;
+
+        var tabla = document.getElementById('tbl-resources-adm');
+        var filas = tabla.querySelectorAll('.fila-tabla');
+        filas.forEach(function(fila) {
+            fila.addEventListener('click', function() {
+                rec = fila.getAttribute('data-name');
+                //alert("Valor del campo 'name': " + name);
+            });
+        });
+    });
+
+    socket.on('resource-modify-adm', function(data) {
+        var htmlForm = data.html_form;
+        document.getElementById('form-resources-adm').innerHTML = htmlForm;
+    });
+
+    function findRessources(resource) {
+        socket.emit('resource-adm', { 'data': resource, room:'{{user_id}}'});
+    }
+
+    function deleteRessources(resource) {
+        socket.emit('resource-delete-adm', { 'data': resource, room:'{{user_id}}'});
+    }
+
+    function modifyRessource(resource) {
+        socket.emit('resource-modify-adm', { 'data': resource, room:'{{user_id}}'});
+    }
+
+    function newRessource() {
+        socket.emit('resource-new-adm', { room:'{{user_id}}'});
+    }
+
+</script>
+
+
+
+<div class="center">
+<h1>Gestión recursos</h1>
+<div class="center search">
+<input type="text" id="search-input" class="search-input" onkeyup="Search()">
+<button type="button" class="button new" onclick=" findRessources('')">Buscar</button> 
+<button type="button" class="button new" onclick="newRessource()">Nuevo</button> 
+</div>
+</div>
+<div class="center">
+    <div id="table-resources-adm"></div>
+</div>
+<div class="center">
+    <div id="form-resources-adm"></div>
+</div> 
+
+{% endblock %}

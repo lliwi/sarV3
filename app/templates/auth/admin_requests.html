@@ -1,0 +1,41 @@
+{% extends '/auth/base-auth.html' %}
+
+{% block content %}
+{% include 'auth/base-header.html' %}
+
+        
+<div class="center">
+    <h1>Gestión solicitudes pendientes</h1>
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Recurso</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Fecha solicitud</th>
+                <th>Acción</th>
+
+            </tr>
+        </thead>
+        {% for reg in requests %}
+        <tr>
+            <td>{{ reg['name'] }}</td>
+            <td>{{ reg['resource'] }}</td>
+            <td>{{ reg['description'] }}</td>
+            <td>{{ reg['status'] }}</td>
+            <td>{{ reg['date'].strftime('%d/%m/%Y %H:%M') }}</td>
+            <td>
+                &nbsp;&nbsp;
+                <a class="table-button" href="/auth/request_delete_adm?uid={{ reg['UID'] }}">X</a>
+                <a class="table-button" href="/auth/request_manual_adm?uid={{ reg['UID'] }}">M</a>
+            </td>
+            
+        </tr>
+
+        {%endfor%}
+    </table>
+</div>
+
+    
+{% endblock %}

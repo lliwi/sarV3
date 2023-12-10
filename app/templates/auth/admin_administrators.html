@@ -1,0 +1,113 @@
+{% extends '/auth/base-auth.html' %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<script>
+    function deleteAdministrator(delete_adm) {
+        const data = {delete_adm}
+         // Realiza la solicitud POST al endpoint /request.
+         fetch('/auth/admin_administrators', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json' // Especifica el tipo de contenido como JSON
+            },
+            body: JSON.stringify(data) // Convierte el objeto de datos a una cadena JSON
+          })
+            .then(response => {
+              if (response.ok) {
+                // La solicitud se realizó con éxito.
+                console.log('Solicitud POST exitosa');
+                window.location = '/auth/admin_administrators'
+              } else {
+                // La solicitud no se realizó con éxito.
+                console.error('Error en la solicitud POST');
+              }
+            })
+            .catch(error => {
+              console.error('Error en la solicitud POST:', error);
+            });
+   }
+
+   function addAdministrator(add_adm) {
+    const data = {add_adm}
+     // Realiza la solicitud POST al endpoint /request.
+     fetch('/auth/admin_administrators', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json' // Especifica el tipo de contenido como JSON
+        },
+        body: JSON.stringify(data) // Convierte el objeto de datos a una cadena JSON
+      })
+        .then(response => {
+          if (response.ok) {
+            // La solicitud se realizó con éxito.
+            console.log('Solicitud POST exitosa');
+            window.location = '/auth/admin_administrators'
+          } else {
+            // La solicitud no se realizó con éxito.
+            console.error('Error en la solicitud POST');
+          }
+        })
+        .catch(error => {
+          console.error('Error en la solicitud POST:', error);
+        });
+}
+</script>
+
+
+{% include 'auth/base-header.html' %}
+
+<div class="center">
+    <h1>Administradores</h1>
+    <div class="user-div">
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            {% for administrator in administrators %}
+            <tr>
+                <td>{{ administrator['name']}}</td>
+                <td>{{ administrator['username']}}</td>
+                <td>{{ administrator['mail']}}</td>
+                <td><a class="table-button" href="javascript: deleteAdministrator('{{ administrator['username'] }}');">delete</a></td>
+
+                </td>
+            </tr>
+            {%endfor%}
+        </table>
+    </div>
+</div>
+
+<div class="center">
+    <h1>Usuarios</h1>
+    <div class="user-div">
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            {% for user in users %}
+            <tr>
+                <td>{{ user['name']}}</td>
+                <td>{{ user['username']}}</td>
+                <td>{{ user['mail']}}</td>
+                <td><a class="table-button" href="javascript: addAdministrator('{{ user['username'] }}');">add</a></td>
+
+                </td>
+            </tr>
+      
+            {%endfor%}
+</div>
+
+{% endblock %}%   

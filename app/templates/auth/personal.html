@@ -1,0 +1,56 @@
+{% extends '/auth/base-auth.html' %}
+
+{% block content %}
+{% include 'auth/base-header.html' %}
+<div class="center">
+    <a class="button " href="/auth/requests"> Nueva solicitud</a>
+</div>
+<div class="center">
+    <h1>Solicitudes</h1>
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Validador</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        {% for reg in requests %}
+        <tr>
+            <td>{{ reg['name'] }}</td>
+            <td>{{ reg['description'] }}</td>
+            <td>{{ reg['validator'] }}</td>
+            <td>{{ reg['status'] }}</td>
+            <td>{{ reg['date'].strftime('%d/%m/%Y %H:%M') }}</td>
+        </tr>
+        {%endfor%}
+    </table>
+</div>
+
+<div class="center">
+    <h1>Permisos actuales</h1>
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Path</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        {% for reg in permissions %}
+        <tr>
+            <td>{{ reg['name'] }}</td>
+            <td>{{ reg['description'] }}</td>
+            <td>{{ reg['path'] }}</td>
+            <td>{{ reg['date'].strftime('%d/%m/%Y %H:%M') }}</td>
+        </tr>
+        {%endfor%}
+    </table>
+</div>
+    
+
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends '/auth/base-auth.html' %}
+
+{% block content %}
+{% include 'auth/base-header.html' %}
+
+{% if admin %}
+<div class="center">
+  <h1>Admin panel</h1>
+</div>
+
+<div class="center admin-panel">
+    <a class="button " href="/auth/admin_requests"> Gestión solicitudes</a>
+    <a class="button " href="/auth/admin_resources"> Gestión recursos</a>
+    <a class="button " href="/auth/admin_validators"> Gestión validadores</a>
+    <a class="button " href="/auth/admin_administrators"> Gestión administradores</a>
+    <a class="button " href="/auth/admin_profiles"> Gestión perfiles</a>
+    
+</div>
+
+{% endif %}
+
+    
+
+
+{% endblock %}

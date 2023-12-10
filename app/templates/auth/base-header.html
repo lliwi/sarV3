@@ -1,0 +1,25 @@
+<header>
+    <div class="dropdown">
+        <span>|Menu|</span>
+        <div class="dropdown-content">
+            {%if validator%}
+                    <a class="button " href="/auth/personal_validator"> <img src="{{ url_for('static', filename='images/info.png') }}"
+                        width="20px" /></a>
+            {%endif%}
+            {%if admin%}
+                    <a class="button " href="/auth/admin_panel"> <img src="{{ url_for('static', filename='images/admin.png') }}"
+                        width="20px" /></a>
+            {%endif%}
+            <a class="button " href="/auth/personal"> <img src="{{ url_for('static', filename='images/back.png') }}"
+                        width="20px" /></a>
+            <a class="button " href="/"> <img src="{{ url_for('static', filename='images/logout.png') }}"
+                        width="20px" /></a>
+                    
+        </div>
+        
+    </div>
+    <div class="logo">
+        <h3> SAR V3 </h3>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" width="150px" />
+    </div>
+</header>

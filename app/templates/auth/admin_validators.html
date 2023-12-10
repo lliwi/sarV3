@@ -1,0 +1,116 @@
+{% extends '/auth/base-auth.html' %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<script>
+    function deleteValidator(delete_val) {
+        const data = {delete_val}
+         // Realiza la solicitud POST al endpoint /request.
+         fetch('/auth/admin_validators', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json' // Especifica el tipo de contenido como JSON
+            },
+            body: JSON.stringify(data) // Convierte el objeto de datos a una cadena JSON
+          })
+            .then(response => {
+              if (response.ok) {
+                // La solicitud se realizó con éxito.
+                console.log('Solicitud POST exitosa');
+                window.location = '/auth/admin_validators'
+              } else {
+                // La solicitud no se realizó con éxito.
+                console.error('Error en la solicitud POST');
+              }
+            })
+            .catch(error => {
+              console.error('Error en la solicitud POST:', error);
+            });
+   }
+
+   function addValidator(add_val) {
+    const data = {add_val}
+     // Realiza la solicitud POST al endpoint /request.
+     fetch('/auth/admin_validators', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json' // Especifica el tipo de contenido como JSON
+        },
+        body: JSON.stringify(data) // Convierte el objeto de datos a una cadena JSON
+      })
+        .then(response => {
+          if (response.ok) {
+            // La solicitud se realizó con éxito.
+            console.log('Solicitud POST exitosa');
+            window.location = '/auth/admin_validators'
+          } else {
+            // La solicitud no se realizó con éxito.
+            console.error('Error en la solicitud POST');
+          }
+        })
+        .catch(error => {
+          console.error('Error en la solicitud POST:', error);
+        });
+}
+</script>
+
+
+{% include 'auth/base-header.html' %}
+
+<div class="center">
+    <h1>Validadores</h1>
+    <div class="user-div">
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            {% for validator in validators %}
+            <tr>
+                <td>{{ validator['name']}}</td>
+                <td>{{ validator['username']}}</td>
+                <td>{{ validator['mail']}}</td>
+                <td><a class="table-button" href="javascript: deleteValidator('{{ validator['username'] }}');">delete</a></td>
+
+                </td>
+            </tr>
+            {% if not loop.last%}
+            {%endif%}
+            {%endfor%}
+        </table>
+    </div>
+</div>
+
+<div class="center">
+    <h1>Usuarios</h1>
+    <div class="user-div">
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            {% for user in users %}
+            <tr>
+                <td>{{ user['name']}}</td>
+                <td>{{ user['username']}}</td>
+                <td>{{ user['mail']}}</td>
+                <td><a class="table-button" href="javascript: addValidator('{{ user['username'] }}');">add</a></td>
+
+                </td>
+            </tr>
+            {% if not loop.last%}
+            {%endif%}
+            {%endfor%}
+</div>
+
+{% endblock %}%   

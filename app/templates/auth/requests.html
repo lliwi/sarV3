@@ -1,0 +1,101 @@
+{% extends '/auth/base-auth.html' %}
+
+{% block content %}
+{% include 'auth/base-header.html' %}
+
+<script>
+    function Search() {
+        var input = document.getElementById("search-input");
+        if (input.value.length >= 3) {
+            findRessources(input.value)
+        }
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script>
+    var rec="";
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.on('connect', function() {
+        console.log('Conectado al servidor Socket.IO' + document.domain );
+    });
+
+    socket.on('resources', function(data) {
+        var htmlTable = data.html_table;
+        document.getElementById('table-resources').innerHTML = htmlTable;
+
+        var tabla = document.getElementById('tbl-resources');
+        var filas = tabla.querySelectorAll('.fila-tabla');
+        filas.forEach(function(fila) {
+            fila.addEventListener('click', function() {
+                rec = fila.getAttribute('data-name');
+                //alert("Valor del campo 'name': " + name);
+                findValidators(rec)
+            });
+        });
+    });
+
+    function findRessources(resource) {
+        socket.emit('resource', { 'data': resource, room:'{{user_id}}' });
+    }
+
+    socket.on('validators', function(data) {
+        var htmlTable = data.html_table;
+        document.getElementById('table-validators').innerHTML = htmlTable;
+        var tabla = document.getElementById('tbl-validators');
+        var filas = tabla.querySelectorAll('.fila-tabla');
+        filas.forEach(function(fila) {
+            fila.addEventListener('click', function() {
+                var val = fila.getAttribute('data-name');
+                //alert("Valor del campo 'name': " + val + " Recurso: " + rec);
+                const data = {
+                    val,rec
+                  };
+                  
+                  // Realiza la solicitud POST al endpoint /request.
+                  fetch('/auth/requests', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json' // Especifica el tipo de contenido como JSON
+                    },
+                    body: JSON.stringify(data) // Convierte el objeto de datos a una cadena JSON
+                  })
+                    .then(response => {
+                      if (response.ok) {
+                        // La solicitud se realizó con éxito.
+                        console.log('Solicitud POST exitosa');
+                        window.location = '/auth/thanks'
+                      } else {
+                        // La solicitud no se realizó con éxito.
+                        console.error('Error en la solicitud POST');
+                      }
+                    })
+                    .catch(error => {
+                      console.error('Error en la solicitud POST:', error);
+                    });
+            });        
+        });
+
+    });
+
+    function findValidators(name) {
+        socket.emit('validators', { 'data': name , room:'{{user_id}}'});
+    }
+</script>
+
+
+
+<div class="center">
+<input type="text" id="search-input" class="search-input" onkeyup="Search()">
+</div>
+<div class="center">
+    <div id="table-resources"></div>
+</div>
+<div class="center">
+    <div id="table-validators"></div>
+</div>
+
+
+    
+
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends '/auth/base-auth.html' %}
+
+
+{% block content %}
+<header>
+        
+    </div>
+    <div class="logo">
+        <h3> SAR V3 login </h3>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" width="150px" />
+    </div>
+</header>
+<script>
+  var timer = setTimeout(function () {
+      window.location = '/auth/login'
+  }, 5000);
+</script>
+
+<div class="alert alert-danger" role="alert">
+  <h4 class="alert-heading">Authentication Failed</h4>
+  <p>Well! You couldn't pass through the authentication,</p>
+  <hr>
+  <p class="mb-0">Authentication failed due to {{ error_message }}</p>
+</div>
+
+{% endblock %}
+
+

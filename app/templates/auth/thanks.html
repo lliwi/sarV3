@@ -1,0 +1,24 @@
+{% extends '/auth/base-auth.html' %}
+
+
+{% block content %}
+<header>
+       <div class="logo">
+        <h3> SAR V3 </h3>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" width="150px" />
+    </div>
+</header>
+<script>
+    var timer = setTimeout(function () {
+        window.location = '/auth/personal'
+    }, 5000);
+</script>
+
+<div class="center">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" height="100px" />
+    <h3> tu solicitud se ha enviado correctamente </h3>
+
+</div>
+
+
+{% endblock %}
